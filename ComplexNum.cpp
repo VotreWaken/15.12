@@ -8,28 +8,29 @@ public:
 	// Default Constructor
 	Complex()
 	{
-		whole = 0;
-		imaginary = 0;
+		real = 0;
+		imag = 0;
 	}
 
 	// Constructor with Parametres
 	Complex(double UserWhole, double UserImaginary)
 	{
-		whole = UserWhole;
-		imaginary = UserImaginary;
+		real = UserWhole;
+		imag = UserImaginary;
 	};
 
 	// Copy Constructor 
 	Complex(Complex& UserComplex)
 	{
-		whole = UserComplex.whole;
-		imaginary = UserComplex.imaginary;
+		real = UserComplex.real;
+		imag = UserComplex.imag;
 	}
 
 	// Module from Complex Number 
+	// |x| = sqrt(a^2 + b^2) 
 	double Module() const
 	{
-		return My_Sqrt((whole * whole) - (imaginary * imaginary));
+		return My_Sqrt((real * real) - (imag * imag));
 	}
 
 	// Implementation of Sqrt using bitwise search
@@ -50,17 +51,18 @@ public:
 	// Overload operator = 
 	Complex& operator = (Complex& UserValue)
 	{
-		whole = UserValue.whole;
-		imaginary = UserValue.imaginary;
+		real = UserValue.real;
+		imag = UserValue.imag;
 		return *this;
 	}
+
 
 	// Overload operator +
 	Complex& operator + (Complex& UserValue) const
 	{
 		Complex temp;
-		temp.whole += UserValue.whole;
-		temp.imaginary += UserValue.imaginary;
+		temp.real = real + UserValue.real;
+		temp.imag = real + UserValue.imag;
 		return temp;
 	}
 
@@ -68,8 +70,8 @@ public:
 	Complex& operator - (Complex& UserValue) const
 	{
 		Complex temp;
-		temp.whole -= UserValue.whole;
-		temp.imaginary -= UserValue.imaginary;
+		temp.real = real - UserValue.real;
+		temp.imag = imag - UserValue.imag;
 		return temp;
 	}
 
@@ -77,8 +79,8 @@ public:
 	Complex& operator * (Complex& UserValue) const
 	{
 		Complex temp;
-		temp.whole *= UserValue.whole;
-		temp.imaginary *= UserValue.imaginary;
+		temp.real = (real * UserValue.real) - (imag * UserValue.imag);
+		temp.imag = (imag * UserValue.real) + (real * UserValue.imag);
 		return temp;
 	}
 
@@ -87,9 +89,9 @@ public:
 	{
 		Complex temp;
 
-		double r = UserValue.whole * UserValue.whole + UserValue.imaginary * UserValue.imaginary;
-		temp.whole = (whole * UserValue.whole + imaginary * UserValue.imaginary) / r;
-		temp.imaginary = (imaginary * UserValue.whole - whole * UserValue.imaginary) / r;
+		double r = UserValue.real * UserValue.real + UserValue.imag * UserValue.imag;
+		temp.real = (real * UserValue.real + imag * UserValue.imag) / r;
+		temp.imag = (imag * UserValue.real - real * UserValue.imag) / r;
 
 		return temp;
 	}
@@ -97,7 +99,7 @@ public:
 	// Display
 	void Output() const
 	{
-		cout << "Whole: " << whole << " " << "Imaginary: " << imaginary;
+		cout << "Whole: " << real << " " << "Imaginary: " << imag;
 	}
 
 	// Destructor
@@ -110,22 +112,32 @@ public:
 	friend ostream& operator<<(ostream& out, const Complex& Num);
 
 private:
-	double whole;
-	double imaginary;
+	float real;
+	float imag;
 };
 
 // Overload cout 
 ostream& operator<<(ostream& out, const Complex& Num)
 {
-	out << "Whole: " << Num.whole << " Imaginary: " << Num.imaginary << "\n";
+	out << "Whole: " << Num.real << " Imaginary: " << Num.imag << "\n";
 	return out;
 }
 
 int main()
 {
-	Complex a(1, 4);
-	Complex b(2, 1);
+	Complex a(2, 5);
+	Complex b(1, 3);
 	Complex c;
+	cout << " / " << endl;
 	c = a / b;
+	cout << c;
+	cout << " * " << endl;
+	c = a * b;
+	cout << c;
+	cout << " + " << endl;
+	c = a + b;
+	cout << c;
+	cout << " - " << endl;
+	c = a - b;
 	cout << c;
 }
